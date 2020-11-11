@@ -1,0 +1,116 @@
+$base-font-family: "Karla", sans-serif;
+
+$primary-color: #ff533d;
+
+@import "node_modules/spectre.css/src/spectre";
+
+html {
+  font-size: 18px;
+}
+
+.navbar {
+  min-height: 3.25rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.navbar-logo {
+  height: auto;
+  max-width: 100%;
+  & img {
+    max-height: 1.75rem;
+  }
+}
+
+.is-16by9 {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  margin: 0;
+  padding-top: 56.25%;
+
+  & img {
+    height: auto;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+}
+
+.mb-4 {
+  margin-bottom: 4rem;
+}
+
+footer.hero {
+  margin-top: 4rem;
+  position: relative;
+}
+
+.nav .nav-item a {
+  padding-left: 0;
+}
+
+.copyright {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  & p {
+    text-align: center;
+  }
+}
+
+.checkmark {
+  width: 56px;
+  height: 56px;
+  margin: 5rem auto;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  box-shadow: inset 0px 0px 0px #7ac142;
+  animation: fill 0.4s ease-in-out 0.4s forwards,
+    scale 0.3s ease-in-out 0.9s both;
+}
+
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #7ac142;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes scale {
+  0%,
+  100% {
+    transform: none;
+  }
+
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #7ac142;
+  }
+}
