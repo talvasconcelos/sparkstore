@@ -207,7 +207,7 @@ OrderPage.getInitialProps = async ({ query, req, res }) => {
       console.log(resp);
       return resp;
     };
-    return await request(query.orderid);
+    return await request(req.url.split("/")[2]);
   }
   // console.log(ctx.req.url.split("/")[2]);
   return { orderid: query.orderid };
