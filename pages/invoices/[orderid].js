@@ -180,9 +180,8 @@ const OrderPage = (props) => {
   );
 };
 
-/*
 export async function getStaticPaths() {
-  return { paths: [{ params: { orderid: "false" } }], fallback: false };
+  return { paths: [{ params: { orderid: "false" } }], fallback: true };
 }
 
 export async function getStaticProps({ params }) {
@@ -207,8 +206,8 @@ export async function getStaticProps({ params }) {
   // let orderid = await request(params.orderid);
   return { props: { orderid } };
 }
-*/
-OrderPage.getInitialProps = ({ query: { orderid } }) => ({ orderid });
+
+// OrderPage.getInitialProps = ({ query: { orderid } }) => ({ orderid });
 // OrderPage.getInitialProps = async ({ query, req, res }) => {
 //   if (req || res) {
 //     console.log("server", query.orderid);

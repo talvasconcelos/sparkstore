@@ -98,39 +98,39 @@ const Productitem = ({ Product, loading, error, ...props }) => {
   );
 };
 
-// export async function getStaticPaths() {
-//   const client = initializeApollo();
-//   const response = await client.query({
-//     query: GET_ALL_PRODUCTS,
-//   });
-//
-//   const { allProducts } = response.data;
-//
-//   const paths = allProducts.map((id) => ({
-//     params: { id: `${id.id}` },
-//   }));
-//
-//   return { paths, fallback: false };
-// }
-//
-// export async function getStaticProps({ params }) {
-//   const apolloClient = initializeApollo();
-//
-//   const data = await apolloClient.query({
-//     query: GET_PRODUCT_DETAILS,
-//     variables: { id: params.id },
-//   });
-//
-//   return {
-//     props: {
-//       Product: data.data.Product,
-//       loading: data.loading,
-//       error: !data.error ? null : data.error,
-//     },
-//     revalidate: 1,
-//   };
-// }
+export async function getStaticPaths() {
+  const client = initializeApollo();
+  const response = await client.query({
+    query: GET_ALL_PRODUCTS,
+  });
 
-Productitem.getInitialProps = async ({ query: { id } }) => ({ id });
+  const { allProducts } = response.data;
+
+  const paths = allProducts.map((id) => ({
+    params: { id: `${id.id}` },
+  }));
+
+  return { paths, fallback: true };
+}
+
+export async function getStaticProps({ params }) {
+  const apolloClient = initializeApollo();
+
+  const data = await apolloClient.query({
+    query: GET_PRODUCT_DETAILS,
+    variables: { id: params.id },
+  });
+
+  return {
+    props: {
+      Product: data.data.Product,
+      loading: data.loading,
+      error: !data.error ? null : data.error,
+    },
+    revalidate: 1,
+  };
+}
+
+// Productitem.getInitialProps = async ({ query: { id } }) => ({ id });
 
 export default Productitem;
