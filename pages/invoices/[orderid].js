@@ -194,7 +194,7 @@ const OrderPage = (props) => {
 // OrderPage.getInitialProps = ({ query: { orderid } }) => ({ orderid });
 OrderPage.getInitialProps = async ({ asPath, query, req, res }) => {
   if (req) {
-    console.log("server", query);
+    console.log("server");
 
     const request = async (id) => {
       console.log(id);
@@ -208,7 +208,7 @@ OrderPage.getInitialProps = async ({ asPath, query, req, res }) => {
       // console.log(resp);
       return resp;
     };
-    return await request(query.orderid);
+    return await request(eq.url.split("/")[2]);
   }
   // console.log(ctx.req.url.split("/")[2]);
   return { orderid: query.orderid };
