@@ -199,7 +199,7 @@ OrderPage.getInitialProps = async ({ asPath, query, req, res }) => {
     const request = async (id) => {
       console.log(id);
       const r = await fetch(
-        `https://sparkstore-backend.herokuapp.com/custom${id}`,
+        `https://sparkstore-backend.herokuapp.com/custom/${id}`,
         {
           method: "GET",
         }
