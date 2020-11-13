@@ -3,6 +3,7 @@ import { useState } from "react";
 import QRCode from "qrcode";
 import { useToasts } from "react-toast-notifications";
 import { initializeApollo } from "../../lib/apolloClient";
+const fetch = require("isomorphic-unfetch");
 
 import { GET_ORDER, UPDATE_INVOICE } from "../../graphql/graphql";
 
@@ -191,14 +192,17 @@ const OrderPage = (props) => {
 // }
 
 // OrderPage.getInitialProps = ({ query: { orderid } }) => ({ orderid });
-OrderPage.getInitialProps = async ({ query, req }) => {
+OrderPage.getInitialProps = async ({ asPath, query, req, res }) => {
   if (req) {
-    console.log("server", req.url);
-    const fetch = require("isomorphic-unfetch");
+    console.log("server", asPath);
+
     const request = async (id) => {
       console.log(id);
       const r = await fetch(
-        `https://sparkstore-backend.herokuapp.com/custom${id}`
+        `https://sparkstore-backend.herokuapp.com/custom${id}`,
+        {
+          method: "GET",
+        }
       );
       const resp = await r.json();
       console.log(resp);
