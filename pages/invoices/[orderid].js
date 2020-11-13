@@ -192,13 +192,13 @@ const OrderPage = (props) => {
 // }
 
 // OrderPage.getInitialProps = ({ query: { orderid } }) => ({ orderid });
-OrderPage.getInitialProps = async ({ asPath, query, req, res }) => {
-  if (req) {
-    console.log("server", req.url);
+OrderPage.getInitialProps = async ({ query, req, res }) => {
+  if (req || res) {
+    console.log("server", query.orderid);
 
     const request = async (id) => {
       const r = await fetch(
-        `https://sparkstore-backend.herokuapp.com/custom${id}`,
+        `https://sparkstore-backend.herokuapp.com/custom/invoices/${id}`,
         {
           method: "GET",
         }
@@ -207,7 +207,7 @@ OrderPage.getInitialProps = async ({ asPath, query, req, res }) => {
       console.log(resp);
       return resp;
     };
-    return await request(req.url);
+    return await request(query.orderid);
   }
   // console.log(ctx.req.url.split("/")[2]);
   return { orderid: query.orderid };
