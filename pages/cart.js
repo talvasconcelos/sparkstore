@@ -8,6 +8,15 @@ import { useQuery, useMutation } from "@apollo/client";
 
 import { ADD_ORDER } from "../graphql/graphql";
 
+function ValidateEmail(inputText) {
+  let mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  if (inputText.match(mailformat)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 const Cart = () => {
   const { cart, carttotal, resetCart } = useContext(CartContext);
   // const grouped = groupById(cart);
@@ -46,21 +55,13 @@ const Cart = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log({
-    //   variables: {
-    //     user_name: name,
-    //     cart: {
-    //       create: cart.map((item) => ({
-    //         item: { connect: { id: item.id } },
-    //         qty: item.qty,
-    //       })),
-    //     },
-    //     email: email,
-    //     address: address,
-    //     comment: comment,
-    //     total: carttotal,
-    //   },
-    // });
+    if (!ValidateEmail(email)) {
+      addToast("Not a valid email.", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      return;
+    }
     placeOrder({
       variables: {
         user_name: name,
@@ -161,7 +162,9 @@ const Cart = () => {
                   type="email"
                   placeholder="johndoe@mail.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
                 />
                 <p class="form-input-hint">
                   Please use a correct email, or we won't be able to contact you
@@ -171,7 +174,7 @@ const Cart = () => {
               <button
                 class={`btn btn-lg btn-success mr-2 ${loading && "loading"}`}
                 onClick={handleSubmit}
-                disabled={!email || !address}
+                disabled={!ValidateEmail(email) && !address}
               >
                 Checkout
               </button>

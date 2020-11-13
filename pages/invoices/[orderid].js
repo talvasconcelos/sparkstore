@@ -2,6 +2,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { useState } from "react";
 import QRCode from "qrcode";
 import { useToasts } from "react-toast-notifications";
+import { initializeApollo } from "../../lib/apolloClient";
 
 import { GET_ORDER, UPDATE_INVOICE } from "../../graphql/graphql";
 
@@ -60,6 +61,7 @@ const InvoicePaid = ({ sats }) => {
 };
 
 const OrderPage = (props) => {
+  // console.log(props);
   const { addToast } = useToasts();
   let showInvoice = false;
   const [qr, setQR] = useState("");
@@ -165,23 +167,46 @@ const OrderPage = (props) => {
   );
 };
 
-// export async function getServerSideProps({params}) {
-//   const apolloClient = initializeApollo();
-//   const data = await apolloClient.query({
-//     query: GET_ORDER,
-//     variables: { id: params.id },
-//   });
-//
-//   // Pass data to the page via props
-//   return {
-//     props: {
-//       Order: data.data.Order,
-//       loading: data.loading,
-//       error: !data.error ? null : data.error,
-//     }
-//   }
+// export async function getServerSideProps({ params }) {
+// const apolloClient = initializeApollo();
+// const _data = await apolloClient.watchQuery({
+//   query: GET_ORDER,
+//   variables: { id: params.orderid },
+//   pollInterval: 5000,
+// });
+// const data = await _data.result();
+// console.log(data);
+// Pass data to the page via props
+// return {
+//   props: {
+//     orderid: params.orderid,
+// Order: data.data.Order,
+// loading: data.loading,
+// error: !data.error ? null : data.error,
+// Observable: _data,
+// startPolling,
+// stopPolling: _data.stopPolling,
+//     },
+//   };
 // }
 
-OrderPage.getInitialProps = ({ query: { orderid } }) => ({ orderid });
+// OrderPage.getInitialProps = ({ query: { orderid } }) => ({ orderid });
+OrderPage.getInitialProps = ({ query, req }) => {
+  if (req) {
+    console.log("server");
+    const fetch = require("isomorphic-unfetch");
+    const request = async (id) => {
+      console.log(id);
+      const r = await fetch(
+        `https://sparkstore-backend.herokuapp.com/admin/api/invoices/${id}`
+      );
+      const resp = await r.json();
+      return resp;
+    };
+    return request(req.url.split("/")[2]);
+  }
+  // console.log(ctx.req.url.split("/")[2]);
+  return { orderid: query.orderid };
+};
 
 export default OrderPage;

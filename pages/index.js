@@ -5,7 +5,6 @@ import { initializeApollo } from "../lib/apolloClient";
 import ProductCard from "../components/ProductCard";
 
 const Home = (props) => {
-  console.log(props);
   const { data: { allProducts } = {}, loading, error } = useQuery(
     GET_ALL_PRODUCTS
   );
