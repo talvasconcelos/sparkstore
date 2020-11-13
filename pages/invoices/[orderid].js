@@ -198,7 +198,7 @@ OrderPage.getInitialProps = ({ query, req }) => {
     const request = async (id) => {
       console.log(id);
       const r = await fetch(
-        `https://sparkstore-backend.herokuapp.com/admin/api/invoices/${id}`
+        `https://sparkstore-backend.herokuapp.com/custom/invoices/${id}`
       );
       const resp = await r.json();
       return resp;
