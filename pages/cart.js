@@ -55,6 +55,13 @@ const Cart = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (address === "") {
+      addToast("Please specify an address.", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      return;
+    }
     if (!ValidateEmail(email)) {
       addToast("Not a valid email.", {
         appearance: "error",
@@ -146,7 +153,7 @@ const Cart = () => {
                 />
               </div>
               <div class="form-group">
-                <label class="form-label">Adress</label>
+                <label class="form-label">Address</label>
                 <input
                   class="form-input"
                   type="text"
@@ -174,7 +181,7 @@ const Cart = () => {
               <button
                 class={`btn btn-lg btn-success mr-2 ${loading && "loading"}`}
                 onClick={handleSubmit}
-                disabled={!ValidateEmail(email) && !address}
+                disabled={!ValidateEmail(email) || !address}
               >
                 Checkout
               </button>

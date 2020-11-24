@@ -81,7 +81,7 @@ const OrderPage = (props) => {
     variables: { id: props.orderid },
     pollInterval: 5000,
     onCompleted(data) {
-      console.log(data);
+      // console.log(data);
       setCont(true);
     },
   });
@@ -93,7 +93,7 @@ const OrderPage = (props) => {
   if (loading) {
     return <p>Loading...</p>;
   } else {
-    if (Order.status === "expired") {
+    if (Order.status === "expired" || Order.settled) {
       stopPolling();
     }
     showInvoice = !Order.settled && Order.status === "pending";

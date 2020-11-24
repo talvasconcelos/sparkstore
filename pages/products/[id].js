@@ -5,6 +5,8 @@ import CartContext from "../../components/cartContext";
 import { useToasts } from "react-toast-notifications";
 import { initializeApollo } from "../../lib/apolloClient";
 import { useRouter } from "next/router";
+import Seo from "../../components/seo";
+import Social from "../../components/social";
 
 const Productitem = ({ Product, loading, error, ...props }) => {
   const router = useRouter();
@@ -30,71 +32,82 @@ const Productitem = ({ Product, loading, error, ...props }) => {
 
   if (loading || router.isFallback) return <p>Loading...</p>;
 
+  const seo = {
+    metaTitle: Product.title,
+    metaDescription: Product.description,
+    shareImage: Product.image.publicUrl,
+    article: true,
+  };
+
   return (
-    <div class="container grid-lg" style="margin-bottom: 3rem;">
-      <ul class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="/">Home</a>
-        </li>
-        <li class="breadcrumb-item">{Product.url}</li>
-      </ul>
-      <div class="columns">
-        <div class="column col-sm-12 col-6">
-          <figure>
-            <img
-              class="img-responsive img-fit-contain"
-              src={Product.image.publicUrl}
-              alt={Product.image.filename}
-            />
-          </figure>
-        </div>
-        <div class="column col-sm-12 col-6">
-          <article>
-            <h1 class="title">{Product.title}</h1>
-            <h3 class="subtitle">
-              <sup>&euro;</sup>
-              {Product.price}
-            </h3>
-            <p>{Product.intro}</p>
-            <p style="white-space: pre-line;">{Product.description}</p>
-            <form class="form-horizontal">
-              <div class="form-group">
-                <div class="col-6 col-sm-9 input-group">
-                  <span class="input-group-addon">Qty</span>
-                  <input
-                    class="form-input"
-                    type="number"
-                    min="1"
-                    placeholder={1}
-                    value={qty}
-                    onChange={handleQty}
-                  />
+    <>
+      <Seo seo={seo} />
+      <div class="container grid-lg" style="margin-bottom: 3rem;">
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="/">Home</a>
+          </li>
+          <li class="breadcrumb-item">{Product.url}</li>
+        </ul>
+        <div class="columns">
+          <div class="column col-sm-12 col-6">
+            <figure>
+              <img
+                class="img-responsive img-fit-contain"
+                src={Product.image.publicUrl}
+                alt={Product.image.filename}
+              />
+              <Social />
+            </figure>
+          </div>
+          <div class="column col-sm-12 col-6">
+            <article>
+              <h1 class="title">{Product.title}</h1>
+              <h3 class="subtitle">
+                <sup>&euro;</sup>
+                {Product.price}
+              </h3>
+              <p>{Product.intro}</p>
+              <p style="white-space: pre-line;">{Product.description}</p>
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <div class="col-6 col-sm-9 input-group">
+                    <span class="input-group-addon">Qty</span>
+                    <input
+                      class="form-input"
+                      type="number"
+                      min="1"
+                      placeholder={1}
+                      value={qty}
+                      onChange={handleQty}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div class="form-group">
-                <div class="col-6 col-sm-9 input-group">
-                  <button
-                    class="btn btn-primary"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      addToCart({ ...Product, qty: +qty });
-                      total(Product.price * qty);
-                      setQty(1);
-                      addToast("Added to cart", {
-                        appearance: "success",
-                        autoDismiss: true,
-                      });
-                    }}
-                  >
-                    Add to Cart
-                  </button>
+                <div class="form-group">
+                  <div class="col-6 col-sm-9 input-group">
+                    <button
+                      class="btn btn-primary"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        addToCart({ ...Product, qty: +qty });
+                        total(Product.price * qty);
+                        setQty(1);
+                        addToast("Added to cart", {
+                          appearance: "success",
+                          autoDismiss: true,
+                        });
+                      }}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </form>
-          </article>
+              </form>
+            </article>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
